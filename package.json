@@ -14,5 +14,12 @@
     "platform"
   ],
   "author": "Travis Barney",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.13.2",
+    "postcss-loader": "^0.10.1",
+    "url-loader": "^0.5.7"
+  }
 }
