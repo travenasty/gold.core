@@ -1,23 +1,27 @@
+const path = require('path')
+
 module.exports = {
-  entry: 'server.js',
+  entry: './src/core.js',
   output: {
-    path: './dist',
-    filename: 'gold.bundle.js',
-    publicPath: '/'
+    path: require("path").resolve("./dist"),
+    library: '[name]',
+    filename: '[name].bundle.js'
   },
   module: {
     loaders: [
       {
-        test: /\.jsx?/,
-        loaders: [
-          'babel'
-        ],
-        include: 'server.js',
+        test: /\.jsx?$/,
+        loader: 'babel',
+        exclude: /node_modules/,
         query: {
           presets: [
             'es2015'
           ]
         }
+      },
+      {
+        test: /\.json$/,
+        loader: "json-loader"
       },
       {
         test: /\.css$/,
@@ -29,9 +33,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg)$/,
-        loaders: [
-          'url'
-        ],
+        loader: 'url',
         query: {
           limit: 8192
         }
