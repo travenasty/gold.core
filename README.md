@@ -1,5 +1,25 @@
-GOLD-UI
-Goal Oriented Live Dialog
+GOLD-CORE
+Goal Oriented Living Documents - Rapid Development Environment
+
+Assumptions:
+  The following instructions are based on the author using an OS X El Capitan
+  operating system and developed in August 2016, your results may vary.
+
+Intentions:
+  The purpose of this repository is to serve as a documented journey through a
+  set-up process leveraging several of today's modern JavaScript build-tools.
+
+  This project strives to provide a solid foundation built on top of popular  
+  and proven libraries, resulting in an opinionated and concise framework.
+
+  Step by step goals drive this vision forward, and is a living document
+  being continually updated as best practices evolve and change over time.
+
+Recommendations:
+  @see : http://rob.conery.io/2016/07/04/imposters-handbook/
+  For a wonderful guide that covers several techniques and topics that
+  will make your experience of developing web applications smoother, from
+  novice to advanced solutions.
 
 Prerequisites:
 
@@ -33,3 +53,14 @@ Prerequisites:
 
   Stop development server:
     ^C    # Ctrl+C, to kill/interrupt the process (SIGINT)
+
+  Learn about semantic commits:
+    @see : https://seesparkbox.com/foundry/semantic_commit_messages
+
+  Install build tools:
+    npm i --save-dev webpack    # Configurable JavaScript module bundler
+    webpack --version   # 1.13.2 as of this writing
+    npm i --save-dev webpack-dev-server   # Local development web-server
+    npm i --save-dev url-loader file-loader json-loader    # Enable JSON parsing through webpack
+    npm i --save-dev postcss-loader css-loader style-loader    # Stylesheet handlers
+    touch dev-server.js    # Create file using your editor of choice.
