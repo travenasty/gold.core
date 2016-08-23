@@ -64,3 +64,7 @@ Prerequisites:
     npm i --save-dev url-loader file-loader json-loader    # Enable JSON parsing through webpack
     npm i --save-dev postcss-loader css-loader style-loader    # Stylesheet handlers
     touch dev-server.js    # Create file using your editor of choice.
+
+  Setup Horizon proxy:
+    @see : https://discuss.horizon.io/t/horizon-with-webpack-dev-server/372
+    

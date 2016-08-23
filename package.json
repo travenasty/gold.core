@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:hz": "hz serve --dev",
     "dev:serve": "BUILD_ENV=development PORT=8880 node dev-server"
   },
   "keywords": [
