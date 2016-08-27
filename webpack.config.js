@@ -1,46 +1,55 @@
 const path = require('path')
+const webpack = require('webpack')
+
+const DIST_PATH = path.resolve('./dist')
+const SRC_PATH = path.resolve('./src')
+const TMP_PATH = path.resolve('./tmp')
 
 module.exports = {
+  context: SRC_PATH,
   devServer: {
-    contentBase: path.resolve('./dist'),
-    historyApiFallback: true,
+    compress: false,
+    contentBase: 'dist',
+    devtool: 'source-map',
+    filename: '[name].bundle.js',
+    headers: {
+      'X-Custom-Header': '2016.08.26'
+    },
+    historyApiFallback: false,
+    hot: true,
+    inline: true,
+    lazy: true,
+    noInfo: false,
+    progress: true,
     proxy: {
       '/horizon/*': {
         target: 'http://localhost:8181',
         secure: false
       },
     },
-    hot: true,
-    historyApiFallback: false,
-    compress: false,
-
+    publicPath: '/',
+    quiet: false,
     setup: function(app) {
       // Customize the Express app object middleware, etc.
     },
-
-    // webpack-dev-middleware options
-    quiet: false,
-    noInfo: false,
-    lazy: true,
-    filename: '[name].bundle.js',
+    stats: { colors: true },
+    watch: true,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
-    },
-    publicPath: '/assets/',
-    headers: { 'X-Custom-Header': '2016.08.22' },
-    stats: { colors: true }
+    }
   },
-  entry: './src/core.js',
-  output: {
-    path: require('path').resolve('./dist'),
-    publicPath: '/assets/',
-    filename: '[name].bundle.js'
+  entry: {
+    'gold-core': [
+      './core.js',
+      'webpack/hot/dev-server',
+      'webpack-dev-server/client?http://localhost:7980/'
+    ]
   },
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.js?$/,
         loader: 'babel',
         exclude: /node_modules/,
         query: {
@@ -69,5 +78,19 @@ module.exports = {
         }
       }
     ]
+  },
+  output: {
+    path: DIST_PATH,
+    publicPath: '/',
+    filename: '[name].bundle.js'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  recordsPath: TMP_PATH + '/webpack.cache.json',
+  resolve: {
+    alias: {
+      util: SRC_PATH + '/util'
+    }
   }
 }

@@ -37,7 +37,7 @@ Prerequisites:
 
   Install Horizion.io:
     npm install -g horizon    # Real-time client-server platform
-    hz version    # 1.1.3 as of this writing
+    hz version    # 2.0.0 as of this writing
 
   Initialize project:
     hz init gold    # Checks for existing, or creates new directory
@@ -67,4 +67,9 @@ Prerequisites:
 
   Setup Horizon proxy:
     @see : https://discuss.horizon.io/t/horizon-with-webpack-dev-server/372
+    npm run dev:hz
+    npm run dev:serve
+
+  Setup HMR hot-module-replacement:
+    @see : http://andrewhfarmer.com/webpack-hmr-tutorial
     

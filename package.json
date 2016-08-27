@@ -1,12 +1,14 @@
 {
-  "name": "gold",
+  "name": "gold-core",
   "version": "1.0.0",
   "description": "Goal oriented live dialog",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "BUILD_ENV=production ./node_modules/webpack/bin/webpack.js",
     "dev:hz": "hz serve --dev",
-    "dev:serve": "BUILD_ENV=development PORT=8880 node dev-server"
+    "dev:serve": "BUILD_ENV=development PORT=7980 node dev-server",
+    "dev:watch": "BUILD_ENV=development ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 7980 --progress --content-base=dist --inline --watch --hot"
   },
   "keywords": [
     "goal",
