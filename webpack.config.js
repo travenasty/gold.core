@@ -90,6 +90,7 @@ module.exports = {
   recordsPath: TMP_PATH + '/webpack.cache.json',
   resolve: {
     alias: {
+      driver: SRC_PATH + '/driver',
       util: SRC_PATH + '/util'
     }
   }

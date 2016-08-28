@@ -61,15 +61,23 @@ Prerequisites:
     npm i --save-dev webpack    # Configurable JavaScript module bundler
     webpack --version   # 1.13.2 as of this writing
     npm i --save-dev webpack-dev-server   # Local development web-server
-    npm i --save-dev url-loader file-loader json-loader    # Enable JSON parsing through webpack
+    npm i --save-dev url-loader file-loader json-loader    # Enable JSON parsing
     npm i --save-dev postcss-loader css-loader style-loader    # Stylesheet handlers
-    touch dev-server.js    # Create file using your editor of choice.
 
   Setup Horizon proxy:
     @see : https://discuss.horizon.io/t/horizon-with-webpack-dev-server/372
+    touch dev-server.js    # Create file using your editor of choice.
     npm run dev:hz
     npm run dev:serve
 
+  Setup CycleJS with xstream runner:
+    npm i --save xstream @cycle/dom @cycle/isolate @cycle/xstream-run
+
+  Setup Ramda:
+    npm i --save ramda
+
   Setup HMR hot-module-replacement:
     @see : http://andrewhfarmer.com/webpack-hmr-tutorial
-    
+    @see : https://www.npmjs.com/package/cycle-hmr
+    npm i --save-dev babel-plugin-espower babel-preset-stage-0 cycle-hmr
+    touch .babelrc

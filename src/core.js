@@ -1,22 +1,27 @@
-import {log} from './util';
+import {log} from 'util'
+import {makeDOMDriver} from '@cycle/dom'
+import {makeHorizonDriver} from 'driver'
+import Cycle from '@cycle/xstream-run'
 
-const horizon = Horizon();
-const baseNode = document.querySelector('.au-base');
+function main (sources) {
+  return {};
+}
 
-log.info('liquid gold!');
+const drivers = {
+  DOM: makeDOMDriver('#au-base', {
+    transposition: false
+  }),
+  HZ: makeHorizonDriver({
+    host: 'localhost:8181',
+    lazyWrites: true
+  })
+};
 
-horizon.onReady(function() {
-  log.info('HORIZON READY');
-  baseNode.innerHTML = '🜚 (GOLD BASE)';
-});
-
-baseNode.innerHTML = '…';
-horizon.connect();
+const dispose = Cycle.run(main, drivers)
 
 if (module.hot) {
-  module.hot.accept();
-
-  module.hot.dispose(function() {
-    baseNode.parentNode.removeChild(baseNode);
-  });
+  module.hot.accept()
+  module.hot.dispose(() => {
+    dispose()
+  })
 }
