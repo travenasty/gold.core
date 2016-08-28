@@ -13,9 +13,9 @@ module.exports = {
     devtool: 'source-map',
     filename: '[name].bundle.js',
     headers: {
-      'X-Custom-Header': '2016.08.26'
+      'X-Custom-Header': '2016.08.28'
     },
-    historyApiFallback: false,
+    historyApiFallback: true,
     hot: true,
     inline: true,
     lazy: true,
@@ -51,12 +51,7 @@ module.exports = {
       {
         test: /\.js?$/,
         loader: 'babel',
-        exclude: /node_modules/,
-        query: {
-          presets: [
-            'es2015'
-          ]
-        }
+        exclude: /node_modules/
       },
       {
         test: /\.json$/,
@@ -90,7 +85,9 @@ module.exports = {
   recordsPath: TMP_PATH + '/webpack.cache.json',
   resolve: {
     alias: {
+      component: SRC_PATH + '/component',
       driver: SRC_PATH + '/driver',
+      page: SRC_PATH + '/page',
       util: SRC_PATH + '/util'
     }
   }

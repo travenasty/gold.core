@@ -81,3 +81,9 @@ Prerequisites:
     @see : https://www.npmjs.com/package/cycle-hmr
     npm i --save-dev babel-plugin-espower babel-preset-stage-0 cycle-hmr
     touch .babelrc
+
+  Configure ComponentRouter component:
+    @see :  https://github.com/cyclejs-community/xstream-boilerplate
+    @see : https://www.npmjs.com/package/history
+    npm i --save history
+    npm i --save cyclic-router 

@@ -1,27 +1,27 @@
 import {log} from 'util'
 import {makeDOMDriver} from '@cycle/dom'
 import {makeHorizonDriver} from 'driver'
+import {makeRouterDriver} from 'cyclic-router';
+import {createHistory} from 'history';
 import Cycle from '@cycle/xstream-run'
-
-function main (sources) {
-  return {};
-}
+import main from 'page/main'
 
 const drivers = {
   DOM: makeDOMDriver('#au-base', {
     transposition: false
   }),
-  HZ: makeHorizonDriver({
+  hz: makeHorizonDriver({
     host: 'localhost:8181',
     lazyWrites: true
-  })
+  }),
+  router: makeRouterDriver(createHistory())
 };
 
-const dispose = Cycle.run(main, drivers)
+const rerun = Cycle.run(main, drivers)
 
 if (module.hot) {
   module.hot.accept()
   module.hot.dispose(() => {
-    dispose()
+    rerun()
   })
 }
