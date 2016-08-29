@@ -1,0 +1,14 @@
+.au-pg--home {
+  font-family: monospace;
+}
+
+.au-slider {
+  &__label {
+    display: block;
+    color: #999;
+  }
+
+  &__input {
+    padding: 1em 0.5em;
+  }
+}

@@ -6,11 +6,12 @@ import {
 import {
   LabeledSlider
 } from 'component'
+import style from './home.css'
 
 // Sources => Actions (listen to user events)
 function intent (sources) {
   return {
-    justA$: xs.of('A')
+    justA$: xs.of('~')
   }
 }
 

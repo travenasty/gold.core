@@ -1,4 +1,8 @@
+
+const autoprefixer = require('autoprefixer')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path')
+const precss = require('precss')
 const webpack = require('webpack')
 
 const DIST_PATH = path.resolve('./dist')
@@ -11,14 +15,13 @@ module.exports = {
     compress: false,
     contentBase: 'dist',
     devtool: 'source-map',
-    filename: '[name].bundle.js',
     headers: {
       'X-Custom-Header': '2016.08.28'
     },
     historyApiFallback: true,
     hot: true,
     inline: true,
-    lazy: true,
+    lazy: false,
     noInfo: false,
     progress: true,
     proxy: {
@@ -49,6 +52,13 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader!postcss-loader'
+        )
+      },
+      {
         test: /\.js?$/,
         loader: 'babel',
         exclude: /node_modules/
@@ -56,14 +66,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
-      },
-      {
-        test: /\.css$/,
-        loaders: [
-          'style',
-          'css',
-          'postcss'
-        ]
       },
       {
         test: /\.(png|jpg)$/,
@@ -77,11 +79,24 @@ module.exports = {
   output: {
     path: DIST_PATH,
     publicPath: '/',
-    filename: '[name].bundle.js'
+    filename: '[name].bundle.js',
+    chunkFilename: "[id].js"
   },
   plugins: [
+    new ExtractTextPlugin(
+      '[name].css',
+      {
+        allChunks: true
+      }
+    ),
     new webpack.HotModuleReplacementPlugin()
   ],
+  postcss: {
+    plugins: [
+      autoprefixer,
+      precss
+    ]
+  },
   recordsPath: TMP_PATH + '/webpack.cache.json',
   resolve: {
     alias: {
@@ -89,6 +104,10 @@ module.exports = {
       driver: SRC_PATH + '/driver',
       page: SRC_PATH + '/page',
       util: SRC_PATH + '/util'
-    }
+    },
+    modulesDirectories: [
+      'node_modules',
+      'src/component'
+    ]
   }
 }

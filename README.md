@@ -86,4 +86,11 @@ Prerequisites:
     @see :  https://github.com/cyclejs-community/xstream-boilerplate
     @see : https://www.npmjs.com/package/history
     npm i --save history
-    npm i --save cyclic-router 
+    npm i --save cyclic-router
+
+  Set up PostCSS and PreCSS stylesheet pre-processing:
+    @see : https://github.com/postcss/postcss-loader
+    @see : https://www.npmjs.com/package/precss
+    npm i --save-dev precss
+    npm i --save-dev autoprefixer
+    npm i --save-dev extract-text-webpack-plugin
