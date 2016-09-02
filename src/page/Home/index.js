@@ -1,7 +1,7 @@
 import xs from 'xstream'
 import isolate from '@cycle/isolate'
 import {
-  section, p
+  section, div
 } from '@cycle/dom'
 import {
   LabeledSlider
@@ -30,8 +30,9 @@ function view (state$) {
     timeContextSlider
   ]) => {
     return section('.au-pg--home', [
-      ('.au-pg__body', 'HOME ' + valA),
-      timeContextSlider
+      div('.au-pg__body', [
+        timeContextSlider
+      ]),
     ])
   })
 }
@@ -54,7 +55,7 @@ function HomePage (sources) {
   })
 
   return {
-    DOM: view(model(intent(sources), timeContextSlider.DOM)),
+    DOM: view(model(intents, timeContextSlider.DOM)),
     timeContext$: timeContextSlider.value,
     route$
   }

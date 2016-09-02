@@ -1,5 +1,34 @@
+$rgb-a: rgb(117, 19, 79);
+$rgb-b: rgb(19, 117, 79);
+$rgb-c: rgb(79, 19, 117);
+$rgb-d: rgb(117, 79, 19);
+$rgb-e: rgb(79, 117, 19);
+$rgb-f: rgb(19, 79, 117);
+
+/* LANDSCAPE */
 .au-pg--home {
   font-family: monospace;
+  width: 100vh;
+  height: 100vh;
+  font-size: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $rgb-c;
+
+  &:before {
+    content: '';
+    width: calc(100vw - 100vh);
+    height: 0.2em;
+    position: absolute;
+    left: 100vh;
+    background: $rgb-b;
+    box-shadow: 0 0.2em 0 0 $rgb-a, 0 0.4em 0 0 $rgb-d, 0 0.6em 0 0 $rgb-f, 0 0.8em 0 0 $rgb-e;
+  }
+}
+
+.au-pg__body {
+  font-size: 1rem;
 }
 
 .au-slider {
@@ -10,5 +39,21 @@
 
   &__input {
     padding: 1em 0.5em;
+  }
+}
+
+@media only screen and (orientation: portrait) {
+  .au-pg--home {
+    width: 100vw;
+    height: 100vw;
+    font-size: 100vw;
+
+    &:before {
+      height: calc(100vh - 100vw);
+      width: 0.2em;
+      left: 0;
+      top: 100vw;
+      box-shadow: 0.2em 0 0 0 $rgb-a, 0.4em 0 0 0 $rgb-d, 0.6em 0 0 0 $rgb-f, 0.8em 0 0 0 $rgb-e;
+    }
   }
 }
