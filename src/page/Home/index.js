@@ -4,7 +4,8 @@ import {
   section, div
 } from '@cycle/dom'
 import {
-  LabeledSlider
+  AreaBar,
+  LabeledSlider,
 } from 'component'
 import style from './home.css'
 
@@ -16,10 +17,11 @@ function intent (sources) {
 }
 
 // Actions => State (process information)
-function model (actions, timeContextSliderNode$) {
+function model (actions, timeContextSliderNode$, ecoAreaBarNode$) {
   return xs.combine(
     actions.justA$.map(v => v.toLowerCase()),
-    timeContextSliderNode$
+    timeContextSliderNode$,
+    ecoAreaBarNode$
   )
 }
 
@@ -27,11 +29,15 @@ function model (actions, timeContextSliderNode$) {
 function view (state$) {
   return state$.map(([
     valA,
-    timeContextSlider
+    timeContextSlider,
+    ecoAreaBar,
   ]) => {
     return section('.au-pg--home', [
       div('.au-pg__body', [
         timeContextSlider
+      ]),
+      div('.au-pg__soul', [
+        ecoAreaBar
       ]),
     ])
   })
@@ -49,13 +55,25 @@ function HomePage (sources) {
     value: 200
   })
 
+  const ecoAreaBarProps$ = xs.of({
+    label: 'eco',
+    min: 0,
+    max: 100,
+    values: [50,30,70,40,90,20,100,90,30,50]
+  })
+
   const timeContextSlider = LabeledSlider({
     DOM: sources.DOM,
     props: timeContextProps$
   })
 
+  const ecoAreaBar = AreaBar({
+    DOM: sources.DOM,
+    props: ecoAreaBarProps$
+  })
+
   return {
-    DOM: view(model(intents, timeContextSlider.DOM)),
+    DOM: view(model(intents, timeContextSlider.DOM, ecoAreaBar.DOM)),
     timeContext$: timeContextSlider.value,
     route$
   }

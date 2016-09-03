@@ -31,6 +31,14 @@ $rgb-f: rgb(19, 79, 117);
   font-size: 1rem;
 }
 
+#au-svg--soul {
+  position: absolute;
+  top: 0;
+  left: 1em;
+  width: calc(100vw - 1em);
+  height: 0.2em;
+}
+
 .au-slider {
   &__label {
     display: block;
@@ -55,5 +63,14 @@ $rgb-f: rgb(19, 79, 117);
       top: 100vw;
       box-shadow: 0.2em 0 0 0 $rgb-a, 0.4em 0 0 0 $rgb-d, 0.6em 0 0 0 $rgb-f, 0.8em 0 0 0 $rgb-e;
     }
+  }
+
+  #au-svg--soul {
+    top: 1em;
+    left: 0.2em;
+    width: calc(100vh - 1em);
+    height: 0.2em;
+    transform-origin: top left;
+    transform: rotate(90deg);
   }
 }
