@@ -1,9 +1,13 @@
-$rgb-a: rgb(117, 19, 79);
-$rgb-b: rgb(19, 117, 79);
-$rgb-c: rgb(79, 19, 117);
-$rgb-d: rgb(117, 79, 19);
-$rgb-e: rgb(79, 117, 19);
-$rgb-f: rgb(19, 79, 117);
+$hex--bg: #123;
+
+$rgb--a: rgb(117, 19, 79);
+$rgb--b: rgb(19, 117, 79);
+$rgb--c: rgb(79, 19, 117);
+$rgb--d: rgb(117, 79, 19);
+$rgb--e: rgb(79, 117, 19);
+$rgb--f: rgb(19, 79, 117);
+
+$ONE_SIXTH: calc(1/6);
 
 /* LANDSCAPE */
 .au-pg--home {
@@ -14,16 +18,20 @@ $rgb-f: rgb(19, 79, 117);
   position: absolute;
   top: 0;
   left: 0;
-  background: $rgb-c;
+  background: $hex--bg;
 
   &:before {
     content: '';
     width: calc(100vw - 100vh);
-    height: 0.2em;
+    height: $(ONE_SIXTH)em;
     position: absolute;
     left: 100vh;
-    background: $rgb-b;
-    box-shadow: 0 0.2em 0 0 $rgb-a, 0 0.4em 0 0 $rgb-d, 0 0.6em 0 0 $rgb-f, 0 0.8em 0 0 $rgb-e;
+    background: $rgb--a;
+    box-shadow: 0 $(ONE_SIXTH)em 0 0 $rgb--b,
+      0 calc(2em * $ONE_SIXTH) 0 0 $rgb--c,
+      0 calc(3em * $ONE_SIXTH) 0 0 $rgb--d,
+      0 calc(4em * $ONE_SIXTH) 0 0 $rgb--e,
+      0 calc(5em * $ONE_SIXTH) 0 0 $rgb--f;
   }
 }
 
@@ -31,12 +39,21 @@ $rgb-f: rgb(19, 79, 117);
   font-size: 1rem;
 }
 
-#au-svg--soul {
+.au-pg__soul {
   position: absolute;
   top: 0;
-  left: 1em;
-  width: calc(100vw - 1em);
-  height: 0.2em;
+  left: 0;
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 1em;
+    width: calc(100vw - 1em);
+    height: $(ONE_SIXTH)em;
+  }
+  #au-svg--bio {
+    top: $(ONE_SIXTH)em;
+  }
 }
 
 .au-slider {
@@ -58,19 +75,30 @@ $rgb-f: rgb(19, 79, 117);
 
     &:before {
       height: calc(100vh - 100vw);
-      width: 0.2em;
+      width: $(ONE_SIXTH)em;
       left: 0;
       top: 100vw;
-      box-shadow: 0.2em 0 0 0 $rgb-a, 0.4em 0 0 0 $rgb-d, 0.6em 0 0 0 $rgb-f, 0.8em 0 0 0 $rgb-e;
+      box-shadow: $(ONE_SIXTH)em 0 0 0 $rgb--b,
+        calc(2em * $ONE_SIXTH) 0 0 0 $rgb--c,
+        calc(3em * $ONE_SIXTH)  0 0 0 $rgb--d,
+        calc(4em * $ONE_SIXTH) 0 0 0 $rgb--e,
+        calc(5em * $ONE_SIXTH) 0 0 0 $rgb--f;
     }
   }
 
-  #au-svg--soul {
-    top: 1em;
-    left: 0.2em;
-    width: calc(100vh - 1em);
-    height: 0.2em;
-    transform-origin: top left;
-    transform: rotate(90deg);
+  .au-pg__soul {
+    svg {
+      top: 1em;
+      left: $(ONE_SIXTH)em;
+      width: calc(100vh - 1em);
+      height: $(ONE_SIXTH)em;
+
+      transform-origin: top left;
+      transform: rotate(90deg);
+    }
+    #au-svg--bio {
+      top: 1em;
+      left: calc(2em * $ONE_SIXTH);
+    }
   }
 }

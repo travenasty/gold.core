@@ -1,9 +1,12 @@
-
-const autoprefixer = require('autoprefixer')
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path')
 const precss = require('precss')
 const webpack = require('webpack')
+
+const cssPrefixer = require('autoprefixer')
+const cssVars = require('postcss-advanced-variables')
+const cssCalc = require('postcss-calc')
+
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 const DIST_PATH = path.resolve('./dist')
 const SRC_PATH = path.resolve('./src')
@@ -93,7 +96,9 @@ module.exports = {
   ],
   postcss: {
     plugins: [
-      autoprefixer,
+      cssPrefixer,
+      cssVars,
+      cssCalc,
       precss
     ]
   },

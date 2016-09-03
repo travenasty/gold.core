@@ -17,11 +17,12 @@ function intent (sources) {
 }
 
 // Actions => State (process information)
-function model (actions, timeContextSliderNode$, ecoAreaBarNode$) {
+function model (actions, elements) {
   return xs.combine(
     actions.justA$.map(v => v.toLowerCase()),
-    timeContextSliderNode$,
-    ecoAreaBarNode$
+    elements.timeContextSlider$,
+    elements.ecoAreaBar$,
+    elements.bioAreaBar$
   )
 }
 
@@ -31,13 +32,15 @@ function view (state$) {
     valA,
     timeContextSlider,
     ecoAreaBar,
+    bioAreaBar,
   ]) => {
     return section('.au-pg--home', [
       div('.au-pg__body', [
         timeContextSlider
       ]),
       div('.au-pg__soul', [
-        ecoAreaBar
+        ecoAreaBar,
+        bioAreaBar
       ]),
     ])
   })
@@ -56,10 +59,18 @@ function HomePage (sources) {
   })
 
   const ecoAreaBarProps$ = xs.of({
-    label: 'eco',
+    id: 'eco',
     min: 0,
     max: 100,
-    values: [50,30,70,40,90,20,100,90,30,50]
+    values: [50,30,70,40,90,20,100,90,30,50],
+    fill: 'rgba(179,255,117, 0.2)'
+  })
+
+  const bioAreaBarProps$ = xs.of({
+    id: 'bio',
+    min: 0,
+    max: 330,
+    values: [20,300,230,170,40,50,30,50,70,90,20,100,300,90,20,100,90,30,50]
   })
 
   const timeContextSlider = LabeledSlider({
@@ -72,8 +83,19 @@ function HomePage (sources) {
     props: ecoAreaBarProps$
   })
 
+  const bioAreaBar = AreaBar({
+    DOM: sources.DOM,
+    props: bioAreaBarProps$
+  })
+
+  const elements = {
+    bioAreaBar$: bioAreaBar.DOM,
+    ecoAreaBar$: ecoAreaBar.DOM,
+    timeContextSlider$: timeContextSlider.DOM,
+  }
+
   return {
-    DOM: view(model(intents, timeContextSlider.DOM, ecoAreaBar.DOM)),
+    DOM: view(model(intents, elements)),
     timeContext$: timeContextSlider.value,
     route$
   }
