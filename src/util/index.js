@@ -1,5 +1,5 @@
 import xs, {Stream} from 'xstream'
-import {forEach, map, propOr} from 'ramda'
+import {curry, forEach, map, propOr} from 'ramda'
 
 export const log = {
   info: console.info.bind(console, '🜚')
@@ -28,3 +28,11 @@ export function mergeFlatten (key, children) {
     )
   )
 }
+
+export const randomSeries = curry(function (min, max, count) {
+  const list = []
+  for (let i = 0; i < count; i++) {
+    list.push(Math.random() * (max - min) + min)
+  }
+  return list;
+})

@@ -1,6 +1,7 @@
 import {log} from 'util'
 import {makeDOMDriver} from '@cycle/dom'
 import {makeHorizonDriver} from 'driver'
+import {makeTimeContextDriver} from 'driver'
 import {makeRouterDriver} from 'cyclic-router';
 import {createHistory} from 'history';
 import Cycle from '@cycle/xstream-run'
@@ -14,6 +15,7 @@ const drivers = {
     host: 'localhost:8181',
     lazyWrites: true
   }),
+  time: makeTimeContextDriver(),
   router: makeRouterDriver(createHistory())
 };
 

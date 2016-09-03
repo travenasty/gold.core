@@ -1,28 +1,40 @@
 import xs from 'xstream'
 import isolate from '@cycle/isolate'
+import style from './home.css'
+
 import {
-  section, div
+  log,
+  randomSeries,
+} from 'util'
+
+import {
+  div,
+  section,
 } from '@cycle/dom'
+
 import {
   AreaBar,
   LabeledSlider,
 } from 'component'
-import style from './home.css'
 
 // Sources => Actions (listen to user events)
 function intent (sources) {
-  return {
-    justA$: xs.of('~')
+  let actions = {
+    justA$: xs.of('~'),
+    time$: sources.time.context$
   }
+  return actions
 }
 
 // Actions => State (process information)
 function model (actions, elements) {
   return xs.combine(
     actions.justA$.map(v => v.toLowerCase()),
+    actions.time$.map(v => v.frame / v.second),
     elements.timeContextSlider$,
     elements.ecoAreaBar$,
-    elements.bioAreaBar$
+    elements.bioAreaBar$,
+    elements.artAreaBar$
   )
 }
 
@@ -30,17 +42,21 @@ function model (actions, elements) {
 function view (state$) {
   return state$.map(([
     valA,
+    time,
     timeContextSlider,
     ecoAreaBar,
     bioAreaBar,
+    artAreaBar,
   ]) => {
     return section('.au-pg--home', [
       div('.au-pg__body', [
-        timeContextSlider
+        timeContextSlider,
+        time
       ]),
       div('.au-pg__soul', [
         ecoAreaBar,
-        bioAreaBar
+        bioAreaBar,
+        artAreaBar
       ]),
     ])
   })
@@ -48,7 +64,8 @@ function view (state$) {
 
 function HomePage (sources) {
   const route$ = xs.of('/')
-  const intents = intent(sources)
+
+  // log.info("HomePage sources:", sources)
 
   const timeContextProps$ = xs.of({
     label: 'day #',
@@ -58,11 +75,16 @@ function HomePage (sources) {
     value: 200
   })
 
+  const timeContextSlider = LabeledSlider({
+    DOM: sources.DOM,
+    props: timeContextProps$
+  })
+
   const ecoAreaBarProps$ = xs.of({
     id: 'eco',
     min: 0,
     max: 100,
-    values: [50,30,70,40,90,20,100,90,30,50],
+    values: randomSeries(0, 100, 20),
     fill: 'rgba(179,255,117, 0.2)'
   })
 
@@ -70,12 +92,14 @@ function HomePage (sources) {
     id: 'bio',
     min: 0,
     max: 330,
-    values: [20,300,230,170,40,50,30,50,70,90,20,100,300,90,20,100,90,30,50]
+    values: randomSeries(20, 300, 30)
   })
 
-  const timeContextSlider = LabeledSlider({
-    DOM: sources.DOM,
-    props: timeContextProps$
+  const artAreaBarProps$ = xs.of({
+    id: 'art',
+    min: 100,
+    max: 600,
+    values: randomSeries(100, 500, 15)
   })
 
   const ecoAreaBar = AreaBar({
@@ -88,15 +112,21 @@ function HomePage (sources) {
     props: bioAreaBarProps$
   })
 
+  const artAreaBar = AreaBar({
+    DOM: sources.DOM,
+    props: artAreaBarProps$
+  })
+
   const elements = {
-    bioAreaBar$: bioAreaBar.DOM,
     ecoAreaBar$: ecoAreaBar.DOM,
+    bioAreaBar$: bioAreaBar.DOM,
+    artAreaBar$: artAreaBar.DOM,
     timeContextSlider$: timeContextSlider.DOM,
   }
 
   return {
-    DOM: view(model(intents, elements)),
-    timeContext$: timeContextSlider.value,
+    DOM: view(model(intent(sources), elements)),
+    time: timeContextSlider.value,
     route$
   }
 }

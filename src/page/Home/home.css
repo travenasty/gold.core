@@ -1,11 +1,15 @@
 $hex--bg: #123;
 
-$rgb--a: rgb(117, 19, 79);
-$rgb--b: rgb(19, 117, 79);
-$rgb--c: rgb(79, 19, 117);
-$rgb--d: rgb(117, 79, 19);
-$rgb--e: rgb(79, 117, 19);
-$rgb--f: rgb(19, 79, 117);
+$dec--a: 19;
+$dec--b: 79;
+$dec--c: 117;
+
+$rgb--a: rgb($dec--c, $dec--a, $dec--b);
+$rgb--b: rgb($dec--a, $dec--c, $dec--b);
+$rgb--c: rgb($dec--b, $dec--a, $dec--c);
+$rgb--d: rgb($dec--c, $dec--b, $dec--a);
+$rgb--e: rgb($dec--b, $dec--c, $dec--a);
+$rgb--f: rgb($dec--a, $dec--b, $dec--c);
 
 $ONE_SIXTH: calc(1/6);
 
@@ -92,7 +96,6 @@ $ONE_SIXTH: calc(1/6);
       left: $(ONE_SIXTH)em;
       width: calc(100vh - 1em);
       height: $(ONE_SIXTH)em;
-
       transform-origin: top left;
       transform: rotate(90deg);
     }
