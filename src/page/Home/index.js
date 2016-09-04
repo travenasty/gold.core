@@ -1,6 +1,7 @@
 import xs from 'xstream'
 import isolate from '@cycle/isolate'
 import style from './home.css'
+import goldStyles from 'component/au/gold.css'
 
 import {
   log,
@@ -15,6 +16,7 @@ import {
 import {
   AreaBar,
   LabeledSlider,
+  OrbCube,
 } from 'component'
 
 // Sources => Actions (listen to user events)
@@ -31,6 +33,7 @@ function model (actions, elements) {
   return xs.combine(
     actions.justA$.map(v => v.toLowerCase()),
     actions.time$.map(v => v.frame / v.second),
+    elements.orbCube$,
     elements.timeContextSlider$,
     elements.ecoAreaBar$,
     elements.bioAreaBar$,
@@ -43,6 +46,7 @@ function view (state$) {
   return state$.map(([
     valA,
     time,
+    orbCube,
     timeContextSlider,
     ecoAreaBar,
     bioAreaBar,
@@ -50,13 +54,12 @@ function view (state$) {
   ]) => {
     return section('.au-pg--home', [
       div('.au-pg__body', [
-        timeContextSlider,
-        time
+        orbCube,
       ]),
       div('.au-pg__soul', [
         ecoAreaBar,
         bioAreaBar,
-        artAreaBar
+        artAreaBar,
       ]),
     ])
   })
@@ -78,6 +81,17 @@ function HomePage (sources) {
   const timeContextSlider = LabeledSlider({
     DOM: sources.DOM,
     props: timeContextProps$
+  })
+
+  const orbCubeProps$ = xs.of({
+    id: 'zone',
+    spin: {x: 180, y: -60, z: 30},
+    scale: 6
+  })
+
+  const orbCube = OrbCube({
+    DOM: sources.DOM,
+    props: orbCubeProps$
   })
 
   const ecoAreaBarProps$ = xs.of({
@@ -118,6 +132,7 @@ function HomePage (sources) {
   })
 
   const elements = {
+    orbCube$: orbCube.DOM,
     ecoAreaBar$: ecoAreaBar.DOM,
     bioAreaBar$: bioAreaBar.DOM,
     artAreaBar$: artAreaBar.DOM,

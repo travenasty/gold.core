@@ -13,6 +13,10 @@ $rgb--f: rgb($dec--a, $dec--b, $dec--c);
 
 $ONE_SIXTH: calc(1/6);
 
+body {
+  overflow: hidden;
+}
+
 /* LANDSCAPE */
 .au-pg--home {
   font-family: monospace;
@@ -40,7 +44,7 @@ $ONE_SIXTH: calc(1/6);
 }
 
 .au-pg__body {
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 .au-pg__soul {
