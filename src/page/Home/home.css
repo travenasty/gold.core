@@ -11,7 +11,7 @@ $rgb--d: rgb($dec--c, $dec--b, $dec--a);
 $rgb--e: rgb($dec--b, $dec--c, $dec--a);
 $rgb--f: rgb($dec--a, $dec--b, $dec--c);
 
-$ONE_SIXTH: calc(1/6);
+$ONE_6TH: calc(1/6);
 
 body {
   overflow: hidden;
@@ -31,15 +31,15 @@ body {
   &:before {
     content: '';
     width: calc(100vw - 100vh);
-    height: $(ONE_SIXTH)em;
+    height: $(ONE_6TH)em;
     position: absolute;
     left: 100vh;
     background: $rgb--a;
-    box-shadow: 0 $(ONE_SIXTH)em 0 0 $rgb--b,
-      0 calc(2em * $ONE_SIXTH) 0 0 $rgb--c,
-      0 calc(3em * $ONE_SIXTH) 0 0 $rgb--d,
-      0 calc(4em * $ONE_SIXTH) 0 0 $rgb--e,
-      0 calc(5em * $ONE_SIXTH) 0 0 $rgb--f;
+    box-shadow: 0 $(ONE_6TH)em 0 0 $rgb--b,
+      0 calc(2em * $ONE_6TH) 0 0 $rgb--c,
+      0 calc(3em * $ONE_6TH) 0 0 $rgb--d,
+      0 calc(4em * $ONE_6TH) 0 0 $rgb--e,
+      0 calc(5em * $ONE_6TH) 0 0 $rgb--f;
   }
 }
 
@@ -57,10 +57,10 @@ body {
     top: 0;
     left: 1em;
     width: calc(100vw - 1em);
-    height: $(ONE_SIXTH)em;
+    height: $(ONE_6TH)em;
   }
   #au-svg--bio {
-    top: $(ONE_SIXTH)em;
+    top: $(ONE_6TH)em;
   }
 }
 
@@ -83,29 +83,29 @@ body {
 
     &:before {
       height: calc(100vh - 100vw);
-      width: $(ONE_SIXTH)em;
+      width: $(ONE_6TH)em;
       left: 0;
       top: 100vw;
-      box-shadow: $(ONE_SIXTH)em 0 0 0 $rgb--b,
-        calc(2em * $ONE_SIXTH) 0 0 0 $rgb--c,
-        calc(3em * $ONE_SIXTH)  0 0 0 $rgb--d,
-        calc(4em * $ONE_SIXTH) 0 0 0 $rgb--e,
-        calc(5em * $ONE_SIXTH) 0 0 0 $rgb--f;
+      box-shadow: $(ONE_6TH)em 0 0 0 $rgb--b,
+        calc(2em * $ONE_6TH) 0 0 0 $rgb--c,
+        calc(3em * $ONE_6TH)  0 0 0 $rgb--d,
+        calc(4em * $ONE_6TH) 0 0 0 $rgb--e,
+        calc(5em * $ONE_6TH) 0 0 0 $rgb--f;
     }
   }
 
   .au-pg__soul {
     svg {
       top: 1em;
-      left: $(ONE_SIXTH)em;
+      left: $(ONE_6TH)em;
       width: calc(100vh - 1em);
-      height: $(ONE_SIXTH)em;
+      height: $(ONE_6TH)em;
       transform-origin: top left;
       transform: rotate(90deg);
     }
     #au-svg--bio {
       top: 1em;
-      left: calc(2em * $ONE_SIXTH);
+      left: calc(2em * $ONE_6TH);
     }
   }
 }

@@ -10,14 +10,6 @@
 
   &:focus {
     outline: none;
-
-    > .au-orb {
-      transform: rotateY(-180deg);
-    }
-  }
-
-  &:hover > .au-orb {
-    transform: rotateX(180deg);
   }
 
   &__info {
@@ -39,7 +31,10 @@
   transform-style: preserve-3d;
   transform: translateY(0) translateX(0);
   transition: all 0.6s;
-  pointer-events: none;
+
+  &:focus {
+    outline: none;
+  }
 
   &__hemi {
     transform-style: preserve-3d;
@@ -68,11 +63,17 @@
     position: absolute;
     color: transparent;
     font-size: calc(1em / 24);
-    width: 0;
-    height: 0;
-    border: rgba(0,0,0, 0.3) 0.4em solid;
+    width: 1em;
+    height: 1em;
+    border: rgba(0,0,0, 0.3) 0.5em solid;
+    border-radius: 50%;
     transform-origin: left;
     backface-visibility: hidden;
     opacity: 0.5;
+
+    &:hover {
+      background-color: red;
+    }
   }
+
 }

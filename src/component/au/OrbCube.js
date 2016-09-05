@@ -1,5 +1,7 @@
 import {log} from 'util'
 import isolate from '@cycle/isolate'
+import fromEvent from 'xstream/extra/fromEvent'
+import xs from 'xstream'
 
 import {
   figure, figcaption, li, ol
@@ -8,6 +10,74 @@ import {
 import {
   concat, reduce, times
 } from 'ramda'
+
+// Sources => Actions (listen to user events
+function intent (sources) {
+  let actions = {
+    spin$: sources.DOM.select('.au-orb').events('click')
+    .startWith(null).map(ev => ({
+      x: randomDeg(),
+      y: randomDeg(),
+      z: randomDeg(),
+    }))
+  }
+  return actions
+}
+
+// Actions => State (process information)
+function model (actions, props$) {
+  return xs.combine(
+    props$.map(props => ({
+      id: props.id,
+    })),
+    actions.spin$.map(rot => {
+      return {
+        transform: `
+          rotateX(${rot.x}deg)
+          rotateY(${rot.y}deg)
+          rotateZ(${rot.z}deg)
+        `
+      }
+    })
+  )
+}
+
+// ViewState => VirtualDOM (output to user)
+function view (state$) {
+  return state$.map(([
+    props,
+    orbStyle,
+  ]) => {
+    return figure(`.au-cube.au-cube--${props.id}`, {
+      attrs: {
+        tabindex: 0
+      },
+    }, [
+      ol(`.au-orb.au-cube__orb`, {
+        attrs: {
+          tabindex: 0
+        },
+        style: orbStyle,
+      }, [
+        li('.au-orb__hemi.au-hemi--north',
+          ["#FFF", "#AAA", "#FFF", "#AAA", "#FFF", "#AAA"]
+          .map(color => OrbFace(5, 1.5, color))
+        ),
+        li('.au-orb__hemi.au-hemi--south',
+          ["#F00", "#F0F", "#FF0", "#0FF", "#0F0", "#00F"]
+          .map(color => OrbFace(6, 1.5, color))
+        ),
+      ]),
+      figcaption('.au-cube__info',
+        'CSS 3D Transformed HTML Sphere'
+      )
+    ])
+  })
+}
+
+function randomDeg () {
+  return (Math.random() * 720) - 360;
+}
 
 // Generate the markup and plot sphere-face positions.
 function OrbFace (rows = 22, scale = 2, color = "#F22") {
@@ -22,7 +92,7 @@ function OrbFace (rows = 22, scale = 2, color = "#F22") {
   times(row => {
     row += 1;
     let angY = 0; // Not sure if needed.
-    let angZ = 60 / row;
+    let angZ = (60 / row);
 
     if (row > 1) {
       rotX -= angX;
@@ -57,51 +127,9 @@ function OrbFace (rows = 22, scale = 2, color = "#F22") {
 }
 
 function OrbCube (sources) {
-  const domSource = sources.DOM
-  const props$ = sources.props
-
-  // TODO: Extend from user defined defaults
-  const state$ = props$
-  .map(props => ({
-      id: props.id,
-      radius: 3,
-      spin: {x: 0, y: 0, z: 0},
-      fill: props.fill || 'rgba(128,128,128, 0.5)'
-    })
-  )
-  .remember()
-
-  const vdom$ = state$
-  .map(state => {
-    return figure(`.au-cube.au-cube--${state.id}`, {
-      attrs: {
-        tabindex: 0
-      },
-    }, [
-      ol(`.au-orb.au-cube__orb`, {
-        attrs: {
-          tabindex: 0
-        },
-      }, [
-        li('.au-orb__hemi.au-hemi--north',
-          ["#FFF", "#AAA", "#FFF", "#AAA", "#FFF", "#AAA"]
-          .map(color => OrbFace(5, 1.5, color))
-        ),
-        li('.au-orb__hemi.au-hemi--south',
-          ["#F00", "#F0F", "#FF0", "#0FF", "#0F0", "#00F"]
-          .map(color => OrbFace(6, 1.5, color))
-        ),
-      ]),
-      figcaption('.au-cube__info',
-        'CSS 3D Transformed HTML Sphere'
-      )
-    ])
-  })
-
   const sinks = {
-    DOM: vdom$
+    DOM: view(model(intent(sources), sources.props))
   }
-
   return sinks
 }
 
