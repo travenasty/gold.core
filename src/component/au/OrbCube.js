@@ -1,7 +1,7 @@
 import {log} from 'util'
 import isolate from '@cycle/isolate'
-import fromEvent from 'xstream/extra/fromEvent'
 import xs from 'xstream'
+import xsConcat from 'xstream/extra/concat'
 
 import {
   figure, figcaption, li, ol
@@ -13,13 +13,26 @@ import {
 
 // Sources => Actions (listen to user events
 function intent (sources) {
+  let domCube = sources.DOM.select('.au-cube');
   let actions = {
-    spin$: sources.DOM.select('.au-orb').events('click')
-    .startWith(null).map(ev => ({
-      x: randomDeg(),
-      y: randomDeg(),
-      z: randomDeg(),
-    }))
+    spin$: domCube.events('mousedown').filter(
+      md => {
+        const isDot = md.target.classList.contains('au-orb__dot')
+        return isDot;
+      }
+    ).map(dd => {
+      let cube = dd.target.parentNode.parentNode.parentNode.parentNode
+      let origin = {
+        x: (dd.x / cube.clientWidth) - 0.5,
+        y: (dd.y / cube.clientHeight) - 0.5,
+      }
+      // log.info("origin:", origin)
+      return {
+         x: 180 * origin.y,
+         y: -180 * origin.x,
+         z: randomDeg(),
+       };
+    })
   }
   return actions
 }
@@ -27,10 +40,13 @@ function intent (sources) {
 // Actions => State (process information)
 function model (actions, props$) {
   return xs.combine(
-    props$.map(props => ({
-      id: props.id,
-    })),
+    props$.map(props => {
+      return {
+        id: props.id,
+      }
+    }),
     actions.spin$.map(rot => {
+      // log.info("rot:", rot)
       return {
         transform: `
           rotateX(${rot.x}deg)
@@ -38,7 +54,7 @@ function model (actions, props$) {
           rotateZ(${rot.z}deg)
         `
       }
-    })
+    }).startWith({x: 0, y:0, z:0}),
   )
 }
 
@@ -48,6 +64,7 @@ function view (state$) {
     props,
     orbStyle,
   ]) => {
+    // log.info("props:", props)
     return figure(`.au-cube.au-cube--${props.id}`, {
       attrs: {
         tabindex: 0

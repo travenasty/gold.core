@@ -85,7 +85,7 @@ function HomePage (sources) {
 
   const orbCubeProps$ = xs.of({
     id: 'zone',
-    spin: {x: 180, y: -60, z: 30},
+    rot$: xs.of({x: 180, y: -60, z: 30}),
     scale: 6
   })
 
