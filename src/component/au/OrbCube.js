@@ -93,8 +93,23 @@ function view (state$) {
     time,
     rot,
     point,
-
   ]) => {
+    const orbStyle = {
+      transform: `
+        rotateX(${rot.x * 90}deg)
+        rotateY(${rot.y * 90}deg)
+        rotateZ(${rot.z * 90}deg)
+      `
+    }
+
+    const poleStyle = {
+      transform: `
+        translateX(-0.5em)
+        translateY(-0.5em)
+        translateZ(${ props.rings * props.scale }em)
+      `
+    }
+
     return figure(`.au-cube.au-cube--${props.id}`, {
       attrs: {
         tabindex: 0
@@ -104,22 +119,22 @@ function view (state$) {
         attrs: {
           tabindex: 0
         },
-        style: {
-          transform: `
-            rotateX(${rot.x * 90}deg)
-            rotateY(${rot.y * 90}deg)
-            rotateZ(${rot.z * 90}deg)
-          `
-        },
+        style: orbStyle,
       }, [
         li('.au-orb__hemi.au-hemi--north',
           ["#FFF", "#AAA", "#FFF", "#AAA", "#FFF", '#999']
-          .map(color => OrbFace(6, 1.3, color))
+          .map(color => OrbFace(props.rings, props.scale, color))
         ),
         li('.au-orb__hemi.au-hemi--south',
           ["#F00", "#F0F", "#FF0", "#0FF", "#0F0", "#00F"]
-          .map(color => OrbFace(6, 1.25, color))
+          .map(color => OrbFace(props.rings, props.scale, color))
         ),
+        li('.au-orb__dot.au-pole--north', {
+          style: poleStyle
+        }),
+        li('.au-orb__dot.au-pole--south', {
+          style: poleStyle
+        }),
       ]),
       figcaption('.au-cube__info', [
         pre('', `PX ${ point.x.toFixed(2) } PY ${ point.y.toFixed(2) }`),
@@ -130,30 +145,26 @@ function view (state$) {
   })
 }
 
-function randomDeg () {
-  return (Math.random() * 720) - 360;
-}
-
 // Generate the markup and plot sphere-face positions.
-function OrbFace (rows = 22, scale = 2, color = "#F22") {
-  const RAD = rows * scale;
-  const ROWS = rows + 1;
+function OrbFace (rows = 22, scale = 2, color = '#F22') {
+  const RAD = rows * scale
 
-  let angX = (90 / (ROWS - 0.5));
-  let rotX = 0, rotY = 0, rotZ = 0;
-  let step = 1;
-  let dots = [];
+  let angX = (90 / rows) - 0.25
+  let rotX = -angX + (angX / 4)
+  let rotY = 0
+  let rotZ = 0
+  let step = 1
+  let dots = []
 
   times(row => {
     row += 1;
-    let angY = 0; // Not sure if needed.
-    let angZ = (60 / row);
+    let angZ = 60 / row
 
     if (row > 1) {
-      rotX -= angX;
+      rotX -= angX
     }
-    rotY = 0;
-    rotZ = 0;
+    rotY = 0
+    rotZ = 0
 
     dots = concat(dots, times(col => {
       let transform = `
@@ -161,24 +172,24 @@ function OrbFace (rows = 22, scale = 2, color = "#F22") {
         rotateZ(${rotZ}deg)
         rotateX(${rotX}deg)
         translateZ(${RAD}em)
-      `;
+      `
 
       let dot = li('.au-orb__dot', {
         attrs: {
           tabindex: 0,
         },
         style: {
-          borderColor: color,
+          backgroundColor: color,
           transform,
         }
-      }, []);
+      }, [])
 
-      rotZ -= angZ;
-      step += 1;
+      rotZ -= angZ
+      step += 1
 
-      return dot;
+      return dot
     }, row))
-  }, ROWS)
+  }, rows)
 
   return ol('.au-orb__face', {},
     dots

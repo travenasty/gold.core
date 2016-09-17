@@ -56,16 +56,8 @@
   &__hemi {
     transform-style: preserve-3d;
 
-    &:nth-child(2) {
+    &.au-hemi--south {
       transform: rotateX(180deg);
-
-      .au-orb__dot {
-        /* backface-visibility: visible; */
-        width: 0.5em;
-        height: 0.5em;
-        border-width: 0.25em;
-        opacity: 0.3;
-      }
     }
   }
 
@@ -86,10 +78,10 @@
   &__dot {
     position: absolute;
     color: transparent;
+    background: white;
     font-size: calc(1em / 20);
     width: 1em;
     height: 1em;
-    border: rgba(0,0,0, 0.3) 0.25em solid;
     border-radius: 50%;
     transform-origin: left;
     backface-visibility: hidden;

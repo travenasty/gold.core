@@ -85,7 +85,8 @@ function HomePage (sources) {
     id: 'zone',
     rot$: xs.of({x: 180, y: -60, z: 30}),
     time$: sources.time.context$,
-    scale: 6
+    rings: 9,
+    scale: 1
   })
 
   const orbCube = OrbCube({
