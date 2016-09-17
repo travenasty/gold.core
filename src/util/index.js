@@ -2,7 +2,11 @@ import xs, {Stream} from 'xstream'
 import {curry, forEach, map, propOr} from 'ramda'
 
 export const log = {
-  info: console.info.bind(console, '🜚')
+  pass: console.debug.bind(console, '🜺'),
+  fail: console.error.bind(console, '🜩'),
+  info: console.info.bind(console, '🜚'),
+  warn: console.warn.bind(console, '🝆'),
+  now: performance.now.bind(performance)
 }
 
 export function requireSources (componentName, sources, ...sourcesNames) {
@@ -36,3 +40,14 @@ export const randomSeries = curry(function (min, max, count) {
   }
   return list;
 })
+
+// get nearest parent element matching selector
+// @see http://stackoverflow.com/questions/15329167/closest-ancestor-matching-selector-using-native-dom
+export function climbToMatch (el, selector) {
+    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+    while (el) {
+        if (matchesSelector.call(el, selector)) break;
+        el = el.parentElement;
+    }
+    return el;
+}

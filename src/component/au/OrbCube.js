@@ -1,60 +1,88 @@
-import {log} from 'util'
+import { log, climbToMatch } from 'util'
 import isolate from '@cycle/isolate'
 import xs from 'xstream'
 import xsConcat from 'xstream/extra/concat'
 
 import {
-  figure, figcaption, li, ol
+  figure, figcaption, li, ol, pre
 } from '@cycle/dom'
 
 import {
   concat, reduce, times
 } from 'ramda'
 
-// Sources => Actions (listen to user events
+function toCoord (ev) {
+  let boxSize = climbToMatch(ev.target, '.au-cube').clientWidth
+  return {
+    x: ((ev.x / boxSize) - 0.5) * 2,
+    y: ((ev.y / boxSize) - 0.5) * 2,
+    at: log.now(),
+  }
+}
+
+// Sources => Actions (capture useful user events)
 function intent (sources) {
-  let domCube = sources.DOM.select('.au-cube');
+  const domCube = sources.DOM.select('.au-cube');
+
+  const dotTap$ = xs.merge(
+    domCube.events('mousedown'),
+    domCube.events('touchstart'),
+  ).filter(
+    ev => ev.target.classList.contains('au-orb__dot')
+  ).map(toCoord)
+
+  const point$ = xs.merge(
+    domCube.events('mousemove'),
+    domCube.events('touchmove'),
+  ).map(toCoord).startWith({x: 0, y: 0})
+
+  const spin$ = dotTap$.map(tap => point$.endWhen(
+    xs.merge(
+      domCube.events('mouseenter').filter(
+        ev => ev.target.classList.contains('au-cube')
+      ),
+      domCube.events('mouseup'),
+      domCube.events('touchend')
+    )
+  )).flatten()
+  .fold((acc, ps) => {
+    // const pos = (acc.fresh) ? ps : acc
+    // const dur = ps.at - pos.at
+    // const xd = (pos.x - ps.x)
+    // const yd = (pos.y - ps.y)
+    // const xv = dur ? xd / dur : 0
+    // const yv = dur ? xd / dur : 0
+
+    // TODO: Leverage distance & velocity to determine multiplied difference.
+
+    return {
+      at: ps.at,
+      x: ps.x,
+      y: ps.y,
+      z: 0, // ps.z
+    }
+  }, {x: 0, y: 0, z: 0, fresh: true})
+  .startWith({x: 0, y: 0, z: 0})
+
   let actions = {
-    spin$: domCube.events('mousedown').filter(
-      md => {
-        const isDot = md.target.classList.contains('au-orb__dot')
-        return isDot;
-      }
-    ).map(dd => {
-      let cube = dd.target.parentNode.parentNode.parentNode.parentNode
-      let origin = {
-        x: (dd.x / cube.clientWidth) - 0.5,
-        y: (dd.y / cube.clientHeight) - 0.5,
-      }
-      // log.info("origin:", origin)
-      return {
-         x: 180 * origin.y,
-         y: -180 * origin.x,
-         z: randomDeg(),
-       };
-    })
+    dotTap$,
+    point$,
+    spin$,
   }
   return actions
 }
 
-// Actions => State (process information)
+// Actions+Props => State (transform into values)
 function model (actions, props$) {
   return xs.combine(
-    props$.map(props => {
-      return {
-        id: props.id,
-      }
-    }),
-    actions.spin$.map(rot => {
-      // log.info("rot:", rot)
-      return {
-        transform: `
-          rotateX(${rot.x}deg)
-          rotateY(${rot.y}deg)
-          rotateZ(${rot.z}deg)
-        `
-      }
-    }).startWith({x: 0, y:0, z:0}),
+    props$,
+    props$.map(props => props.time$).flatten(), // .time
+    actions.spin$.map(spin => ({
+      x: spin.y * -1,
+      y: spin.x * 1,
+      z: spin.z * -1
+    })),
+    actions.point$,
   )
 }
 
@@ -62,9 +90,11 @@ function model (actions, props$) {
 function view (state$) {
   return state$.map(([
     props,
-    orbStyle,
+    time,
+    rot,
+    point,
+
   ]) => {
-    // log.info("props:", props)
     return figure(`.au-cube.au-cube--${props.id}`, {
       attrs: {
         tabindex: 0
@@ -74,20 +104,28 @@ function view (state$) {
         attrs: {
           tabindex: 0
         },
-        style: orbStyle,
+        style: {
+          transform: `
+            rotateX(${rot.x * 90}deg)
+            rotateY(${rot.y * 90}deg)
+            rotateZ(${rot.z * 90}deg)
+          `
+        },
       }, [
         li('.au-orb__hemi.au-hemi--north',
-          ["#FFF", "#AAA", "#FFF", "#AAA", "#FFF", "#AAA"]
-          .map(color => OrbFace(5, 1.5, color))
+          ["#FFF", "#AAA", "#FFF", "#AAA", "#FFF", '#999']
+          .map(color => OrbFace(6, 1.3, color))
         ),
         li('.au-orb__hemi.au-hemi--south',
           ["#F00", "#F0F", "#FF0", "#0FF", "#0F0", "#00F"]
-          .map(color => OrbFace(6, 1.5, color))
+          .map(color => OrbFace(6, 1.25, color))
         ),
       ]),
-      figcaption('.au-cube__info',
-        'CSS 3D Transformed HTML Sphere'
-      )
+      figcaption('.au-cube__info', [
+        pre('', `PX ${ point.x.toFixed(2) } PY ${ point.y.toFixed(2) }`),
+        pre('', `X ${ rot.x.toFixed(2) }\nY ${ rot.y.toFixed(2) }\nZ ${rot.z}`),
+        pre('', `F ${time.frame}\nS ${time.second}`),
+      ])
     ])
   })
 }
@@ -119,12 +157,16 @@ function OrbFace (rows = 22, scale = 2, color = "#F22") {
 
     dots = concat(dots, times(col => {
       let transform = `
+        translateY(-0.5em)
         rotateZ(${rotZ}deg)
         rotateX(${rotX}deg)
         translateZ(${RAD}em)
       `;
 
       let dot = li('.au-orb__dot', {
+        attrs: {
+          tabindex: 0,
+        },
         style: {
           borderColor: color,
           transform,

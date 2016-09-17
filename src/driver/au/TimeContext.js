@@ -7,7 +7,14 @@ function setScale (scale) {
 
 export function makeTimeContextDriver (conf) {
   return function timeContextDriver (timeContext$) {
-    const context$ = xs.of({
+    const frameRate = 1000/60
+
+    const context$ = xs.periodic(frameRate)
+    .fold((acc, tick) => {
+      acc.frame = tick % 60
+      acc.second = (((tick * frameRate) / 1000) % 60).toFixed(2)
+      return acc;
+    }, {
       century: 21,
       decade: 2,
       year: 2016,

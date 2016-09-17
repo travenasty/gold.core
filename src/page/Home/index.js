@@ -68,8 +68,6 @@ function view (state$) {
 function HomePage (sources) {
   const route$ = xs.of('/')
 
-  // log.info("HomePage sources:", sources)
-
   const timeContextProps$ = xs.of({
     label: 'day #',
     unit: ' of 2016 ',
@@ -86,6 +84,7 @@ function HomePage (sources) {
   const orbCubeProps$ = xs.of({
     id: 'zone',
     rot$: xs.of({x: 180, y: -60, z: 30}),
+    time$: sources.time.context$,
     scale: 6
   })
 

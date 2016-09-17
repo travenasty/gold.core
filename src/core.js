@@ -1,20 +1,25 @@
 import {log} from 'util'
 import {makeDOMDriver} from '@cycle/dom'
-import {makeHorizonDriver} from 'driver'
+// import {makeHorizonDriver} from 'driver'
 import {makeTimeContextDriver} from 'driver'
 import {makeRouterDriver} from 'cyclic-router';
 import {createHistory} from 'history';
 import Cycle from '@cycle/xstream-run'
 import main from 'page/main'
+import preventOverscroll from 'util/prevent-overscroll'
+
+preventOverscroll(document.getElementById('au-base'))
 
 const drivers = {
   DOM: makeDOMDriver('#au-base', {
     transposition: false
   }),
+  /*
   hz: makeHorizonDriver({
     host: 'localhost:8181',
     lazyWrites: true
   }),
+  */
   time: makeTimeContextDriver(),
   router: makeRouterDriver(createHistory())
 };
