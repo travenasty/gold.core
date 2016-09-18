@@ -92,8 +92,7 @@
     }
 
     &:focus {
-      background-color: rgba(0,0,0,0.5) !important;
-      border-color: #FF0 !important;
+      box-shadow: 0 0 0.25em 0.25em #000;
       outline: none;
     }
   }

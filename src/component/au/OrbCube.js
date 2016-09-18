@@ -137,7 +137,7 @@ function view (state$) {
         }),
       ]),
       figcaption('.au-cube__info', [
-        pre('', `PX ${ point.x.toFixed(2) } PY ${ point.y.toFixed(2) }`),
+        pre('.au-note', `PX ${ point.x.toFixed(2) } PY ${ point.y.toFixed(2) }`),
         pre('', `X ${ rot.x.toFixed(2) }\nY ${ rot.y.toFixed(2) }\nZ ${rot.z}`),
         pre('', `F ${time.frame}\nS ${time.second}`),
       ])
@@ -150,7 +150,7 @@ function OrbFace (rows = 22, scale = 2, color = '#F22') {
   const RAD = rows * scale
 
   let angX = (90 / rows) - 0.25
-  let rotX = -angX + (angX / 4)
+  let rotX = -angX + (angX / 2.5)
   let rotY = 0
   let rotZ = 0
   let step = 1
@@ -163,7 +163,7 @@ function OrbFace (rows = 22, scale = 2, color = '#F22') {
     if (row > 1) {
       rotX -= angX
     }
-    rotY = 0
+    rotY = 60 / row
     rotZ = 0
 
     dots = concat(dots, times(col => {

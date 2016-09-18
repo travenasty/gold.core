@@ -85,7 +85,7 @@ function HomePage (sources) {
     id: 'zone',
     rot$: xs.of({x: 180, y: -60, z: 30}),
     time$: sources.time.context$,
-    rings: 9,
+    rings: 8,
     scale: 1
   })
 

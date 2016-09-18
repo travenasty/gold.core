@@ -27,6 +27,7 @@ body {
   top: 0;
   left: 0;
   background: $hex--bg;
+  -webkit-overflow-scrolling: touch;
 
   &:before {
     content: '';
@@ -76,36 +77,37 @@ body {
 }
 
 @media only screen and (orientation: portrait) {
+  $etc-height: calc(100vh - 1em);
+  $etc-6th: calc($etc-height / 6);
+
   .au-pg--home {
     width: 100vw;
     height: 100vw;
     font-size: 100vw;
 
     &:before {
-      height: calc(100vh - 100vw);
-      width: $(ONE_6TH)em;
+      height: $etc-6th;
+      width: 1em;
       left: 0;
-      top: 100vw;
-      box-shadow: $(ONE_6TH)em 0 0 0 $rgb--b,
-        calc(2em * $ONE_6TH) 0 0 0 $rgb--c,
-        calc(3em * $ONE_6TH)  0 0 0 $rgb--d,
-        calc(4em * $ONE_6TH) 0 0 0 $rgb--e,
-        calc(5em * $ONE_6TH) 0 0 0 $rgb--f;
+      top: 1em;
+      box-shadow: 0 1em 0 0 $rgb--a,
+        0 $etc-6th 0 0 $rgb--b,
+        0 calc(2 * $etc-6th) 0 0 $rgb--c,
+        0 calc(3 * $etc-6th) 0 0 $rgb--d,
+        0 calc(4 * $etc-6th) 0 0 $rgb--e,
+        0 calc(5 * $etc-6th) 0 0 $rgb--f;
     }
   }
 
   .au-pg__soul {
     svg {
       top: 1em;
-      left: $(ONE_6TH)em;
-      width: calc(100vh - 1em);
-      height: $(ONE_6TH)em;
-      transform-origin: top left;
-      transform: rotate(90deg);
+      left: 0;
+      width: 100vw;
+      height: $etc-6th;
     }
     #au-svg--bio {
-      top: 1em;
-      left: calc(2em * $ONE_6TH);
+      top: calc(1em + $etc-6th);
     }
   }
 }
