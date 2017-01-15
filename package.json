@@ -8,31 +8,38 @@
     "@cycle/xstream-run": "3.1.0",
     "@horizon/client": "2.0.0",
     "@horizon/server": "2.0.0",
-    "cyclic-router": "2.1.2",
+    "cycle-onionify": "2.2.0",
+    "cyclic-router": "3.0.1",
+    "dexie-observable": "0.2.1",
+    "global-object": "^1.0.0",
     "history": "3.0.0",
     "ramda": "0.22.1",
-    "xstream": "6.2.0"
+    "stream-conversions": "0.3.0",
+    "switch-path": "1.1.8",
+    "xstream": "6.4.1"
   },
   "devDependencies": {
-    "autoprefixer": "6.4.0",
-    "babel-core": "6.13.2",
+    "autoprefixer": "6.5.0",
+    "babel-core": "6.17.0",
     "babel-loader": "6.2.5",
     "babel-plugin-espower": "2.3.1",
-    "babel-preset-es2015": "6.13.2",
-    "babel-preset-stage-0": "6.5.0",
-    "css-loader": "0.23.1",
+    "babel-plugin-transform-flow-strip-types": "6.18.0",
+    "babel-preset-es2015": "6.16.0",
+    "babel-preset-stage-0": "6.16.0",
+    "css-loader": "0.25.0",
     "cycle-hmr": "0.3.1",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
+    "horizon": "2.0.0",
     "json-loader": "0.5.4",
     "postcss-advanced-variables": "1.2.2",
     "postcss-calc": "5.3.1",
-    "postcss-loader": "0.10.1",
+    "postcss-loader": "0.13.0",
     "precss": "1.4.0",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
     "webpack": "1.13.2",
-    "webpack-dev-server": "1.14.1"
+    "webpack-dev-server": "1.16.1"
   },
   "keywords": [
     "goal",
@@ -50,7 +57,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "BUILD_ENV=production ./node_modules/webpack/bin/webpack.js",
-    "dev:hz": "hz serve --dev",
+    "dev:hz": "./node_modules/.bin/hz serve --dev",
     "dev:serve": "BUILD_ENV=development PORT=7980 node dev-server"
   },
   "version": "1.0.0"
