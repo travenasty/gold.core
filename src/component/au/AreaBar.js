@@ -23,11 +23,13 @@ function valuesToPoints (values, min, max) {
 
 function AreaBar (sources) {
   const dom = sources.DOM
+  const domG = dom.select('g')
   const props$ = sources.props
 
-  const left$ = dom.select('g')
-  .events('mousemove')
-  .map(ev => {
+  const left$ = xs.merge(
+    domG.events('mousemove'),
+    domG.events('touchmove'),
+  ).map(ev => {
     const box = ev
     ? ev.target.getBoundingClientRect()
     : { width: 0 }
@@ -94,7 +96,8 @@ function AreaBar (sources) {
   })
 
   const sinks = {
-    DOM: vdom$
+    DOM: vdom$,
+    left$
   }
 
   return sinks
