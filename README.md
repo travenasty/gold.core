@@ -36,7 +36,7 @@ Prerequisites:
     rethinkdb --version   # 2.3.2 as of this writing
 
   Install Horizion.io:
-    npm install -g horizon    # Real-time client-server platform
+    npm i -g horizon    # Real-time client-server platform
     hz version    # 2.0.0 as of this writing
 
   Initialize project:
@@ -58,11 +58,11 @@ Prerequisites:
     @see : https://seesparkbox.com/foundry/semantic_commit_messages
 
   Install build tools:
-    npm i --save-dev webpack    # Configurable JavaScript module bundler
+    npm i -D webpack    # Configurable JavaScript module bundler
     webpack --version   # 1.13.2 as of this writing
-    npm i --save-dev webpack-dev-server   # Local development web-server
-    npm i --save-dev url-loader file-loader json-loader    # Enable JSON parsing
-    npm i --save-dev postcss-loader css-loader style-loader    # Stylesheet handlers
+    npm i -D webpack-dev-server   # Local development web-server
+    npm i -D url-loader file-loader json-loader    # Enable JSON parsing
+    npm i -D postcss-loader css-loader style-loader    # Stylesheet handlers
 
   Setup Horizon proxy:
     @see : https://discuss.horizon.io/t/horizon-with-webpack-dev-server/372
@@ -71,28 +71,28 @@ Prerequisites:
     npm run dev:serve
 
   Setup CycleJS with xstream runner:
-    npm i --save xstream @cycle/dom @cycle/isolate @cycle/xstream-run
+    npm i -S xstream @cycle/dom @cycle/isolate @cycle/xstream-run
 
   Setup Ramda:
-    npm i --save ramda
+    npm i -S ramda
 
   Setup HMR hot-module-replacement:
     @see : http://andrewhfarmer.com/webpack-hmr-tutorial
     @see : https://www.npmjs.com/package/cycle-hmr
-    npm i --save-dev babel-plugin-espower babel-preset-stage-0 cycle-hmr
+    npm i -D babel-plugin-espower babel-preset-stage-0 cycle-hmr
     touch .babelrc
 
   Configure ComponentRouter component:
     @see :  https://github.com/cyclejs-community/xstream-boilerplate
     @see : https://www.npmjs.com/package/history
-    npm i --save history
-    npm i --save cyclic-router
+    npm i -S history
+    npm i -S cyclic-router
 
   Set up PostCSS and PreCSS stylesheet pre-processing:
     @see : https://github.com/postcss/postcss-loader
     @see : https://www.npmjs.com/package/precss
-    npm i --save-dev precss
-    npm i --save-dev autoprefixer
-    npm i --save-dev extract-text-webpack-plugin
-    npm i --save-dev postcss-advanced-variables
-    npm i --save-dev postcss-calc
+    npm i -D precss
+    npm i -D autoprefixer
+    npm i -D extract-text-webpack-plugin
+    npm i -D postcss-advanced-variables
+    npm i -D postcss-calc
