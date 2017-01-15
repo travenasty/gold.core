@@ -1,7 +1,7 @@
 import xs from 'xstream'
 import isolate from '@cycle/isolate'
 import {
-  section, p
+  section, p, span
 } from '@cycle/dom'
 
 // Sources => Actions (listen to user events)
@@ -24,7 +24,8 @@ function view (state$) {
     valB
   ]) => {
     return section('.au-pg--other', [
-      p('.au-pg__body', 'OTHER ' + valB)
+      p('.au-pg__body', 'OTHER ' + valB),
+      span('.material-icons', 'face')
     ])
   })
 }

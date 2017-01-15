@@ -2,7 +2,7 @@ import xs, {Stream} from 'xstream'
 import {curry, forEach, map, propOr} from 'ramda'
 
 export const log = {
-  pass: console.debug.bind(console, '🜺'),
+  pass: console.debug.bind(console, '🝊'),
   fail: console.error.bind(console, '🜩'),
   info: console.info.bind(console, '🜚'),
   warn: console.warn.bind(console, '🝆'),

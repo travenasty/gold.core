@@ -6,7 +6,7 @@ const cssPrefixer = require('autoprefixer')
 const cssVars = require('postcss-advanced-variables')
 const cssCalc = require('postcss-calc')
 
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const DIST_PATH = path.resolve('./dist')
 const SRC_PATH = path.resolve('./src')
@@ -48,8 +48,8 @@ module.exports = {
   entry: {
     'gold-core': [
       './core.js',
-      'webpack/hot/dev-server',
-      'webpack-dev-server/client?http://localhost:7980/'
+      // 'webpack/hot/dev-server',
+      // 'webpack-dev-server/client?http://localhost:7980/'
     ]
   },
   module: {
@@ -92,7 +92,7 @@ module.exports = {
         allChunks: true
       }
     ),
-    new webpack.HotModuleReplacementPlugin()
+    // new webpack.HotModuleReplacementPlugin()
   ],
   postcss: {
     plugins: [
@@ -107,6 +107,7 @@ module.exports = {
     alias: {
       component: SRC_PATH + '/component',
       driver: SRC_PATH + '/driver',
+      model: SRC_PATH + '/model',
       page: SRC_PATH + '/page',
       util: SRC_PATH + '/util'
     },
