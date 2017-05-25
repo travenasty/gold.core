@@ -2,7 +2,11 @@ import {log} from 'util';
 import xs from 'xstream'
 
 function setScale (scale) {
-  log.info ('set scale:', scale);
+  log.info ('set scale:', scale)
+}
+
+function setTempo (tempo) {
+  log.error ('set tempo:', tempo)
 }
 
 export function makeTimeContextDriver (conf) {
@@ -30,6 +34,7 @@ export function makeTimeContextDriver (conf) {
 
     return {
       setScale,
+      setTempo,
       context$
     }
   }

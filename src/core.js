@@ -6,7 +6,7 @@ import {makePoolDriver} from 'driver/au/Pool'
 import {makeHorizonDriver} from 'driver/Horizon'
 import {makeTimeContextDriver} from 'driver/au/TimeContext'
 import {makeRouterDriver} from 'cyclic-router';
-import {createHistory} from 'history';
+import createHistory from 'history/createBrowserHistory';
 import Cycle from '@cycle/xstream-run'
 import main from 'page/main'
 import preventOverscroll from 'util/prevent-overscroll'

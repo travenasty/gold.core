@@ -37,16 +37,22 @@ export default function main (sources) {
 
   // db.page.delete("9e00fd2f-85df-4f01-dd7f-4cbc9793e211");
 
-
-
   // extend routes with data-driven Page controller
-  db.zone.get({name: 'sand'}).then(registerDynamicRoute)
+  db.zone.get({name: 'sand'})
+  .then(registerDynamicRoute)
+  // .then(makeComponentRouter)
 
+  const pg = makeComponentRouter()
 
-  const pg = ComponentRouter({
-    ...sources,
-    routes$: xs.of(routes)
-  })
+  // log.fail ('pg:', pg);
+
+  function makeComponentRouter () {
+    log.info ('makeComponentRouter...');
+    return ComponentRouter({
+      ...sources,
+      routes$: xs.of(routes)
+    })
+  }
 
   // const initReducer$ = xs.of(function initReducer () {
   //   return 0
@@ -73,5 +79,6 @@ export default function main (sources) {
   function registerDynamicRoute (page) {
     log.info ('register dynamic page:', page);
     routes[`/${page.name}`] = DynamicPage;
+    return this;
   }
 }

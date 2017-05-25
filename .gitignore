@@ -1,4 +1,4 @@
 rethinkdb_data
 **/*.log
 .hz/secrets.toml
-tmp
+tmp/webpack.cache.json

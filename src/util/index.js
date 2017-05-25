@@ -1,5 +1,6 @@
 import xs, {Stream} from 'xstream'
 import {curry, forEach, map, propOr} from 'ramda'
+export {U} from './unicodes'
 
 export const log = {
   pass: console.debug.bind(console, '🝊'),

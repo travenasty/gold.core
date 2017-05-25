@@ -17,7 +17,7 @@ module.exports = {
   devServer: {
     compress: false,
     contentBase: 'dist',
-    devtool: 'source-map',
+    // devtool: 'source-map',
     headers: {
       'X-Custom-Header': '2016.08.28'
     },
@@ -26,7 +26,7 @@ module.exports = {
     inline: true,
     lazy: false,
     noInfo: false,
-    progress: true,
+    // progress: true,
     proxy: {
       '/horizon/*': {
         target: 'http://localhost:8181',
@@ -39,7 +39,7 @@ module.exports = {
       // Customize the Express app object middleware, etc.
     },
     stats: { colors: true },
-    watch: true,
+    // watch: true,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
@@ -53,29 +53,66 @@ module.exports = {
     ]
   },
   module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader!postcss-loader'
-        )
+    // loaders: [
+    //   {
+    //     test: /\.css$/,
+    //     loader: ExtractTextPlugin.extract({
+    //       fallback: 'style-loader',
+    //       use: 'css-loader!postcss-loader'
+    //     })
+    //   },
+    //   {
+    //     test: /\.js?$/,
+    //     loader: 'babel',
+    //     exclude: /node_modules/
+    //   },
+    //   {
+    //     test: /\.json$/,
+    //     loader: 'json-loader'
+    //   },
+    //   {
+    //     test: /\.(png|jpg)$/,
+    //     loader: 'url',
+    //     query: {
+    //       limit: 8192
+    //     }
+    //   }
+    // ],
+    rules: [
+      { test: /\.(styl|css)$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              options: {},
+              plugins: [
+                cssPrefixer,
+                cssVars,
+                cssCalc,
+                precss
+              ]
+            }
+          }
+        ]
       },
-      {
-        test: /\.js?$/,
-        loader: 'babel',
-        exclude: /node_modules/
+      { test: /\.js$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'babel-loader',
+          options: { presets: ['es2015', 'stage-3'] }
+        }]
       },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
+      { test: /\.json/,
+        use: [{
+          loader: 'json-loader'
+        }]
       },
-      {
-        test: /\.(png|jpg)$/,
-        loader: 'url',
-        query: {
-          limit: 8192
-        }
+      { test: /\.(png|jpg)$/,
+        use: [{
+          loader: 'url-loader'
+        }]
       }
     ]
   },
@@ -86,22 +123,13 @@ module.exports = {
     chunkFilename: "[id].js"
   },
   plugins: [
-    new ExtractTextPlugin(
-      '[name].css',
-      {
-        allChunks: true
-      }
-    ),
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      disable: false,
+      allChunks: true
+    }),
     // new webpack.HotModuleReplacementPlugin()
   ],
-  postcss: {
-    plugins: [
-      cssPrefixer,
-      cssVars,
-      cssCalc,
-      precss
-    ]
-  },
   recordsPath: TMP_PATH + '/webpack.cache.json',
   resolve: {
     alias: {
@@ -111,7 +139,7 @@ module.exports = {
       page: SRC_PATH + '/page',
       util: SRC_PATH + '/util'
     },
-    modulesDirectories: [
+    modules: [
       'node_modules',
       'src/component'
     ]
